@@ -49,6 +49,11 @@ const TableSelection: React.FC = () => {
     if (searchParams.get('time')) params.set('time', searchParams.get('time') || '');
     if (searchParams.get('guests')) params.set('guests', searchParams.get('guests') || '');
     
+    // Add selected menu items to query params
+    searchParams.getAll('items').forEach(item => {
+      params.append('items', item);
+    });
+
     // Add table and restaurant name
     params.set('table', selectedTable);
     params.set('restaurantName', restaurantName);

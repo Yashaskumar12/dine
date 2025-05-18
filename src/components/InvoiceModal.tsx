@@ -48,9 +48,12 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({ booking, onClose, isDarkMod
     }
   };
 
-  // Calculate subtotal based on guests (mock calculation)
-  const perPersonPrice = 25.99;
-  const subtotal = Number(booking.guests) * perPersonPrice;
+  // Calculate subtotal based on guests and selected items
+  const perPersonPrice = 0; // Base price per person, assuming food items cover the main cost
+  const diningReservationPrice = Number(booking.guests) > 0 ? 25.99 : 0; // Example base price for reservation
+  
+  const itemsTotal = booking.selectedItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
+  const subtotal = diningReservationPrice + itemsTotal;
   const tax = subtotal * 0.18; // 18% tax
   const total = subtotal + tax;
   const invoiceNumber = `INV-${booking.id}-${new Date().getFullYear()}`;
@@ -170,18 +173,30 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({ booking, onClose, isDarkMod
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-200">
-                  <td className="py-3">Dining Reservation - {booking.restaurantName}</td>
-                  <td className="py-3 text-right">{booking.guests}</td>
-                  <td className="py-3 text-right">${perPersonPrice.toFixed(2)}</td>
-                  <td className="py-3 text-right">${subtotal.toFixed(2)}</td>
-                </tr>
+                {/* Display Dining Reservation if applicable */}
+                {diningReservationPrice > 0 && (
+                  <tr className="border-b border-gray-200">
+                    <td className="py-3">Dining Reservation - {booking.restaurantName}</td>
+                    <td className="py-3 text-right">{booking.guests}</td>
+                    <td className="py-3 text-right">₹{diningReservationPrice.toFixed(2)}</td>
+                    <td className="py-3 text-right">₹{(diningReservationPrice * Number(booking.guests)).toFixed(2)}</td>
+                  </tr>
+                )}
+                {/* Display Selected Food Items */}
+                {booking.selectedItems?.map(item => (
+                  <tr key={item.id} className="border-b border-gray-200">
+                    <td className="py-3">{item.name}</td>
+                    <td className="py-3 text-right">{item.quantity}</td>
+                    <td className="py-3 text-right">₹{item.price.toFixed(2)}</td>
+                    <td className="py-3 text-right">₹{(item.price * item.quantity).toFixed(2)}</td>
+                  </tr>
+                ))}
                 {booking.occasion && (
                   <tr className="border-b border-gray-200">
                     <td className="py-3">Special Occasion - {booking.occasion}</td>
                     <td className="py-3 text-right">1</td>
-                    <td className="py-3 text-right">$0.00</td>
-                    <td className="py-3 text-right">$0.00</td>
+                    <td className="py-3 text-right">₹0.00</td>
+                    <td className="py-3 text-right">₹0.00</td>
                   </tr>
                 )}
               </tbody>
@@ -193,15 +208,15 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({ booking, onClose, isDarkMod
             <div className="w-64">
               <div className="flex justify-between py-2">
                 <span className="font-medium">Subtotal:</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <span className="font-medium">Tax (18%):</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>₹{tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between py-2 font-bold text-lg">
                 <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
+                <span>₹{total.toFixed(2)}</span>
               </div>
             </div>
           </div>

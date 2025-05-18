@@ -67,4 +67,10 @@ export interface Booking {
   time: string;
   guests: number;
   status: string;
+  selectedItems?: {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }[];
 } 

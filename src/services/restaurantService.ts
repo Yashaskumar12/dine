@@ -1,6 +1,6 @@
 import { db } from '../firebase';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
-import type { Restaurant } from '../types';
+import type { Restaurant as RestaurantType } from '../types';
 import Restaurant from '../models/Restaurant';
 
 export const createRestaurant = async (restaurantData: any) => {
@@ -80,7 +80,7 @@ export const getTotalGuestsForRestaurant = async (restaurantId: string): Promise
 };
 
 // Mock data for development
-const mockRestaurants: Restaurant[] = [
+const mockRestaurants: RestaurantType[] = [
   {
     id: '1',
     name: 'Spice Garden',
@@ -246,12 +246,12 @@ const mockRestaurants: Restaurant[] = [
         description: 'Crispy fried fish with spices',
         price: 350,
         category: 'Starters',
-        image: 'https://i.pinimg.com/736x/55/d2/e2/55d2e20b51b999decf2c35dbda69574a.jpg',
+        image: 'https://tse2.mm.bing.net/th?id=OIP.MeSmHhqyTFpK0qChnwK2AgHaHa&pid=Api&P=0&h=180'
       },
       {
         id: '4',
         name: 'Crab Masala',
-        description: 'Crab cooked in spicy masala',
+        description: 'Spicy crab curry with coastal spices',
         price: 650,
         category: 'Main Course',
         image: 'https://tse2.mm.bing.net/th?id=OIP.K5-FLWI7hgw2QMhb9RDDLgHaFj&pid=Api&P=0&h=180',
@@ -259,70 +259,52 @@ const mockRestaurants: Restaurant[] = [
       },
       {
         id: '5',
-        name: 'Seafood Platter',
-        description: 'Assortment of grilled seafood',
-        price: 1200,
-        category: 'Main Course',
-        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
-        isPopular: true
-      },
-      {
-        id: '6',
         name: 'Fish Biryani',
         description: 'Fragrant rice with fish and spices',
         price: 450,
         category: 'Main Course',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.Y9dF150pyuX6gLxA7eZOQwHaEK&pid=Api&P=0&h=180',
+        image: 'https://tse1.mm.bing.net/th?id=OIP.JH0E_Tdm3jDDF-DPUZ9v-gHaGS&pid=Api&P=0&h=180'
       },
       {
-        id: '7',
-        name: 'Calamari Rings',
-        description: 'Crispy fried calamari',
-        price: 380,
-        category: 'Starters',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.xJcXcg5GGiCXeTa1wVCA8wHaGG&pid=Api&P=0&h=180',
-      },
-      {
-        id: '8',
-        name: 'Lobster Thermidor',
-        description: 'Lobster in creamy sauce',
-        price: 1800,
-        category: 'Main Course',
-        image: 'https://tse4.mm.bing.net/th?id=OIP.C1GDmBVSJvblnn3U7CdcgAHaFj&pid=Api&P=0&h=180',
-        isPopular: true
-      },
-      {
-        id: '9',
-        name: 'Fish Curry',
-        description: 'Fish in spicy coconut curry',
-        price: 420,
-        category: 'Main Course',
-        image: 'https://tse2.mm.bing.net/th?id=OIP.WfUXLo8DaHhrp5B-pBNYPgHaE7&pid=Api&P=0&h=180',
-      },
-      {
-        id: '10',
-        name: 'Seafood Soup',
-        description: 'Mixed seafood in clear broth',
-        price: 280,
-        category: 'Starters',
-        image: 'https://tse1.mm.bing.net/th?id=OIP.ki6RT7H7rZUg_RsvIV_mYwHaFj&pid=Api&P=0&h=180',
-      },
-      {
-        id: '11',
-        name: 'Steamed Rice',
-        description: 'Plain steamed rice',
-        price: 100,
+        id: '6',
+        name: 'Coconut Rice',
+        description: 'Aromatic rice cooked with coconut',
+        price: 200,
         category: 'Sides',
-        image: 'https://tse4.mm.bing.net/th?id=OIP.mBRTgnKREa1qns4YvDwi6QHaE7&pid=Api&P=0&h=180',
+        image: 'https://tse2.mm.bing.net/th?id=OIP.hp9K63Wah1SNkcq4gRBKaQHaEo&pid=Api&P=0&h=180',
         isVegetarian: true
       },
       {
-        id: '12',
-        name: 'Neer Dosa',
-        description: 'Thin rice crepes',
-        price: 120,
-        category: 'Breads',
-        image: 'https://tse3.mm.bing.net/th?id=OIP.BKFjGVGTlvPVCdopBayCGQHaE8&pid=Api&P=0&h=180',
+        id: '7',
+        name: 'Fish Curry',
+        description: 'Fish in a spicy coconut-based curry',
+        price: 400,
+        category: 'Main Course',
+        image: 'https://tse4.mm.bing.net/th?id=OIP.nmeG-wvFhTbjpAZuAVSKcAHaE7&pid=Api&P=0&h=180'
+      },
+      {
+        id: '8',
+        name: 'Prawn Fry',
+        description: 'Crispy fried prawns with spices',
+        price: 450,
+        category: 'Starters',
+        image: 'https://tse2.mm.bing.net/th?id=OIP.P-kWM2BYLdeVbXpDEoPLxQHaE8&pid=Api&P=0&h=180'
+      },
+      {
+        id: '9',
+        name: 'Fish Cutlet',
+        description: 'Spiced fish patties',
+        price: 250,
+        category: 'Starters',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.WoGpUhRFGiFnSDuNh1RnGgHaFf&pid=Api&P=0&h=180'
+      },
+      {
+        id: '10',
+        name: 'Coconut Water',
+        description: 'Fresh coconut water',
+        price: 80,
+        category: 'Beverages',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.p40toVZb03XV2yXAsv-AcgHaEK&pid=Api&P=0&h=180',
         isVegetarian: true
       }
     ]
@@ -341,7 +323,81 @@ const mockRestaurants: Restaurant[] = [
     },
     priceLevel: 2,
     openNow: true,
-    phoneNumber: '+91-9876543212'
+    phoneNumber: '+91-9876543212',
+    menu: [
+      {
+        id: '1',
+        name: 'Chicken Biryani',
+        description: 'Fragrant basmati rice cooked with chicken and aromatic spices',
+        price: 350,
+        category: 'Main Course',
+        image: 'https://tse2.mm.bing.net/th?id=OIP.2iWS4NJfB5y_mu30Nsq_bwHaHa&pid=Api&P=0&h=180',
+        isPopular: true
+      },
+      {
+        id: '2',
+        name: 'Veg Biryani',
+        description: 'Fragrant basmati rice cooked with mixed vegetables and spices',
+        price: 250,
+        category: 'Main Course',
+        image: 'https://tse1.mm.bing.net/th?id=OIP.yh-lYonX_sPwlJA4vNQ6BAHaGL&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '3',
+        name: 'Mutton Biryani',
+        description: 'Fragrant basmati rice cooked with tender mutton and spices',
+        price: 400,
+        category: 'Main Course',
+        image: 'https://tse2.mm.bing.net/th?id=OIP.pK3hTwN_FIWMmNhocPG9tgHaHa&pid=Api&P=0&h=180',
+        isPopular: true
+      },
+      {
+        id: '4',
+        name: 'Paneer Biryani',
+        description: 'Fragrant basmati rice cooked with paneer and spices',
+        price: 300,
+        category: 'Main Course',
+        image: 'https://tse4.mm.bing.net/th?id=OIP.pN0Gd1VrDd41FoaVd8IHRgHaLO&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '5',
+        name: 'Raita',
+        description: 'Cooling yogurt with cucumber and mint',
+        price: 80,
+        category: 'Sides',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.tGKfUnzqb_qvATfxXvj2cgHaLH&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '6',
+        name: 'Mirchi Ka Salan',
+        description: 'Spicy green chili curry',
+        price: 120,
+        category: 'Sides',
+        image: 'https://tse2.mm.bing.net/th?id=OIP.uOg90jj6UjXTMY7skkENhwHaE8&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '7',
+        name: 'Kheer',
+        description: 'Sweet rice pudding with nuts',
+        price: 150,
+        category: 'Desserts',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.Bt-RQa7CbwMV777FJjSEhAHaEK&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '8',
+        name: 'Masala Chai',
+        description: 'Spiced Indian tea with milk',
+        price: 40,
+        category: 'Beverages',
+        image: 'https://tse1.mm.bing.net/th?id=OIP.DsezVejWM0aVYNpLuN7JBQHaLG&pid=Api&P=0&h=180',
+        isVegetarian: true
+      }
+    ]
   },
   {
     id: '4',
@@ -357,7 +413,99 @@ const mockRestaurants: Restaurant[] = [
     },
     priceLevel: 2,
     openNow: true,
-    phoneNumber: '+91-9876543213'
+    phoneNumber: '+91-9876543213',
+    menu: [
+      {
+        id: '1',
+        name: 'Margherita Pizza',
+        description: 'Classic pizza with tomato sauce and mozzarella',
+        price: 350,
+        category: 'Pizza',
+        image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3',
+        isVegetarian: true,
+        isPopular: true
+      },
+      {
+        id: '2',
+        name: 'Pepperoni Pizza',
+        description: 'Pizza topped with pepperoni and cheese',
+        price: 450,
+        category: 'Pizza',
+        image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e',
+        isPopular: true
+      },
+      {
+        id: '3',
+        name: 'Pasta Alfredo',
+        description: 'Creamy pasta with parmesan sauce',
+        price: 300,
+        category: 'Pasta',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.9jqS4lZo9mC6mjPnXHQ4cwHaFj&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '4',
+        name: 'Garlic Bread',
+        description: 'Toasted bread with garlic butter',
+        price: 150,
+        category: 'Sides',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.OcsnTuuKcYaB_5LkGhHmdQHaFj&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '5',
+        name: 'Caesar Salad',
+        description: 'Fresh romaine lettuce with Caesar dressing',
+        price: 250,
+        category: 'Salads',
+        image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9',
+        isVegetarian: true
+      },
+      {
+        id: '6',
+        name: 'Tiramisu',
+        description: 'Classic Italian dessert with coffee and mascarpone',
+        price: 200,
+        category: 'Desserts',
+        image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9',
+        isVegetarian: true
+      },
+      {
+        id: '7',
+        name: 'Mushroom Pizza',
+        description: 'Pizza topped with mushrooms and cheese',
+        price: 400,
+        category: 'Pizza',
+        image: 'https://images.unsplash.com/photo-1601924582970-9238bcb495d9',
+        isVegetarian: true
+      },
+      {
+        id: '8',
+        name: 'Pasta Bolognese',
+        description: 'Pasta with meat sauce',
+        price: 350,
+        category: 'Pasta',
+        image: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9'
+      },
+      {
+        id: '9',
+        name: 'Soft Drinks',
+        description: 'Carbonated beverages',
+        price: 80,
+        category: 'Beverages',
+        image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97',
+        isVegetarian: true
+      },
+      {
+        id: '10',
+        name: 'Ice Cream',
+        description: 'Vanilla ice cream with chocolate sauce',
+        price: 150,
+        category: 'Desserts',
+        image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb',
+        isVegetarian: true
+      }
+    ]
   },
   {
     id: '5',
@@ -373,7 +521,97 @@ const mockRestaurants: Restaurant[] = [
     },
     priceLevel: 4,
     openNow: true,
-    phoneNumber: '+91-9876543214'
+    phoneNumber: '+91-9876543214',
+    menu: [
+      {
+        id: '1',
+        name: 'California Roll',
+        description: 'Crab, avocado, and cucumber roll',
+        price: 450,
+        category: 'Sushi',
+        image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351',
+        isPopular: true
+      },
+      {
+        id: '2',
+        name: 'Salmon Nigiri',
+        description: 'Fresh salmon over pressed sushi rice',
+        price: 350,
+        category: 'Sushi',
+        image: 'https://images.unsplash.com/photo-1617196034183-421b4917c92d',
+        isPopular: true
+      },
+      {
+        id: '3',
+        name: 'Miso Soup',
+        description: 'Traditional Japanese soup with tofu',
+        price: 150,
+        category: 'Soups',
+        image: 'https://tse4.mm.bing.net/th?id=OIP.DMGbYISswMMAKQr-pKriZAHaDt&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '4',
+        name: 'Tempura Roll',
+        description: 'Shrimp tempura roll with spicy sauce',
+        price: 500,
+        category: 'Sushi',
+        image: 'https://tse4.mm.bing.net/th?id=OIP.GFPGF-3T-FluBuMgdwCpkgHaE8&pid=Api&P=0&h=180'
+      },
+      {
+        id: '5',
+        name: 'Edamame',
+        description: 'Steamed soybeans with sea salt',
+        price: 200,
+        category: 'Starters',
+        image: 'https://tse1.mm.bing.net/th?id=OIP.D68BPmu0uKyCNgQG7RvOoQHaLH&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '6',
+        name: 'Ice Cream',
+        description: 'Matcha-flavored ice cream',
+        price: 250,
+        category: 'Desserts',
+        image: 'https://tse2.mm.bing.net/th?id=OIP.oTgRYULZOkr0kJqykSp5iwHaEK&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '7',
+        name: 'Dragon Roll',
+        description: 'Tempura shrimp roll with avocado',
+        price: 550,
+        category: 'Sushi',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.epeYSZ-AR93r0RDkxUZkwgHaFj&pid=Api&P=0&h=180',
+        isPopular: true
+      },
+      {
+        id: '8',
+        name: 'Sake',
+        description: 'Japanese rice wine',
+        price: 400,
+        category: 'Beverages',
+        image: 'https://tse4.mm.bing.net/th?id=OIP.k9XPXxEVBTWqcf61g5g5TAHaDt&pid=Api&P=0&h=180'
+      },
+      {
+        id: '9',
+        name: 'Vegetable Tempura',
+        description: 'Assorted vegetables in tempura batter',
+        price: 300,
+        category: 'Starters',
+        image: 'https://tse4.mm.bing.net/th?id=OIP.u2hssqUKe0ACtqW1V_5cHAHaES&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '10',
+        name: 'Green Tea',
+        description: 'Traditional Japanese green tea',
+        price: 100,
+        category: 'Beverages',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.RYmprfFf2Lrj3_WZHQR7OAHaEO&pid=Api&P=0&h=180',
+        isVegetarian: true
+      }
+    ]
   },
   {
     id: '6',
@@ -389,12 +627,101 @@ const mockRestaurants: Restaurant[] = [
     },
     priceLevel: 2,
     openNow: true,
-    phoneNumber: '+91-9876543215'
+    phoneNumber: '+91-9876543215',
+    menu: [
+      {
+        id: '1',
+        name: 'Classic Cheeseburger',
+        description: 'Beef patty with cheese, lettuce, tomato, and special sauce',
+        price: 250,
+        category: 'Burgers',
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+        isPopular: true
+      },
+      {
+        id: '2',
+        name: 'Chicken Burger',
+        description: 'Grilled chicken patty with lettuce and mayo',
+        price: 220,
+        category: 'Burgers',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.lhiIFT1BibZGXxqGrGUycQHaHa&pid=Api&P=0&h=180'
+      },
+      {
+        id: '3',
+        name: 'Veg Burger',
+        description: 'Vegetable patty with lettuce and special sauce',
+        price: 200,
+        category: 'Burgers',
+        image: 'https://tse3.mm.bing.net/th?id=OIP.mCUG88hVQotiSxdyXb847wHaEo&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '4',
+        name: 'French Fries',
+        description: 'Crispy golden fries with seasoning',
+        price: 100,
+        category: 'Sides',
+        image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877',
+        isVegetarian: true
+      },
+      {
+        id: '5',
+        name: 'Onion Rings',
+        description: 'Crispy battered onion rings',
+        price: 120,
+        category: 'Sides',
+        image: 'https://tse4.mm.bing.net/th?id=OIP.3EqDCnYUSZZJXQrJjp0pJgHaE8&pid=Api&P=0&h=180',
+        isVegetarian: true
+      },
+      {
+        id: '6',
+        name: 'Chocolate Milkshake',
+        description: 'Creamy chocolate milkshake',
+        price: 150,
+        category: 'Beverages',
+        image: 'https://images.unsplash.com/photo-1577805947697-89e18249d767',
+        isVegetarian: true
+      },
+      {
+        id: '7',
+        name: 'Chicken Wings',
+        description: 'Spicy fried chicken wings',
+        price: 300,
+        category: 'Starters',
+        image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f'
+      },
+      {
+        id: '8',
+        name: 'Soft Drinks',
+        description: 'Carbonated beverages',
+        price: 80,
+        category: 'Beverages',
+        image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97',
+        isVegetarian: true
+      },
+      {
+        id: '9',
+        name: 'Ice Cream',
+        description: 'Vanilla ice cream with chocolate sauce',
+        price: 150,
+        category: 'Desserts',
+        image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb',
+        isVegetarian: true
+      },
+      {
+        id: '10',
+        name: 'Chicken Nuggets',
+        description: 'Crispy chicken nuggets with dipping sauce',
+        price: 200,
+        category: 'Starters',
+        image: 'https://images.unsplash.com/photo-1562967914-608f82629710'
+      }
+    ]
   }
 ];
 
 // Use this for development if Firebase is not set up
-export const getMockRestaurantById = (id: string): Restaurant | null => {
+export const getMockRestaurantById = (id: string): RestaurantType | null => {
   return mockRestaurants.find(restaurant => restaurant.id === id) || null;
 };
 

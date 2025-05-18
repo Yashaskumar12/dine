@@ -64,7 +64,7 @@ const ReservationDetailsPage: React.FC = () => {
       const user = auth.currentUser;
       
       // Build booking object from reservation details
-      const bookingData = {
+      let bookingData = {
         type: type,
         name: type === 'restaurant' 
           ? (restaurant?.name || searchParams.get('restaurantName') || 'Restaurant')
@@ -79,6 +79,10 @@ const ReservationDetailsPage: React.FC = () => {
         occasion: searchParams.get('occasion') || '',
         specialRequest: searchParams.get('specialRequest') || '',
         status: 'Confirmed',
+        // Ensure restaurantName is captured explicitly if it's a restaurant booking
+        ...(type === 'restaurant' && { 
+          restaurantName: restaurant?.name || searchParams.get('restaurantName') || 'Restaurant' 
+        }),
         // Event specific fields
         ...(type === 'event' && {
           category: searchParams.get('eventCategory') || '',
@@ -86,6 +90,23 @@ const ReservationDetailsPage: React.FC = () => {
           organizer: searchParams.get('eventOrganizer') || ''
         })
       };
+      
+      // Add selected menu items to bookingData if available
+      if (Object.keys(selectedMenuItems).length > 0 && restaurant?.menu) {
+        const itemsDetails = Object.entries(selectedMenuItems).map(([itemId, quantity]) => {
+          const item = restaurant.menu?.find(m => m.id === itemId);
+          return {
+            id: itemId,
+            name: item?.name || 'Unknown Item',
+            price: item?.price || 0,
+            quantity: quantity
+          };
+        });
+        // Ensure bookingData is treated as a mutable object if it came from a non-mutable source
+        const mutableBookingData = { ...bookingData };
+        mutableBookingData.selectedItems = itemsDetails;
+        bookingData = mutableBookingData;
+      }
       
       console.log('Sending booking data to API:', bookingData);
       
@@ -182,6 +203,9 @@ const ReservationDetailsPage: React.FC = () => {
             <h1 className="text-3xl font-bold mb-2">
               {type === 'restaurant' ? 'Confirm Your Reservation' : 'Confirm Your Registration'}
             </h1>
+            {type === 'restaurant' && restaurant?.name && (
+              <p className="text-xl font-semibold text-emerald-100 mb-2">{restaurant.name}</p>
+            )}
             <p className="text-emerald-100">
               {type === 'restaurant' 
                 ? 'Please review your reservation details before confirming.'
@@ -297,57 +321,49 @@ const ReservationDetailsPage: React.FC = () => {
             )}
 
             {/* Selected Menu Items */}
-            {Object.keys(selectedMenuItems).length > 0 && (
-              <div className="mt-8 border-t border-gray-200 pt-6">
+            <div className="mt-8 border-t border-gray-200 pt-6">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <Info className="w-5 h-5 text-emerald-500" />
+                Your Order Details
+              </h3>
+              <div className="bg-gray-50 rounded-xl p-4 mb-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold">Selected Menu Items</h3>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-600">{Object.keys(selectedMenuItems).length} items</span>
-                      <span className="text-sm font-medium">₹{getTotalPrice()}</span>
-                    </div>
-                    <button
-                      onClick={() => setShowMenuItems(!showMenuItems)}
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-                    >
-                      <span className="font-medium">Menu</span>
-                      <svg 
-                        className={`w-5 h-5 transform transition-transform ${showMenuItems ? 'rotate-180' : ''}`}
-                        fill="none" 
-                        viewBox="0 0 24 24" 
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-600">Total Items: {Object.keys(selectedMenuItems).length}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-sm text-gray-600">Total Amount:</span>
+                    <span className="ml-2 font-bold text-lg text-emerald-600">₹{getTotalPrice()}</span>
                   </div>
                 </div>
-                {showMenuItems && (
-                  <div className="mt-4 space-y-4">
-                    {Object.entries(selectedMenuItems).map(([itemId, count]) => {
-                      const item = restaurant?.menu?.find(m => m.id === itemId);
-                      if (!item) return null;
-                      return (
-                        <div key={itemId} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                          <img 
-                            src={item.image} 
-                            alt={item.name}
-                            className="w-16 h-16 object-cover rounded-lg"
-                          />
-                          <div className="flex-1">
-                            <h4 className="font-medium">{item.name}</h4>
+                <div className="space-y-4">
+                  {Object.entries(selectedMenuItems).map(([itemId, count]) => {
+                    const item = restaurant?.menu?.find(m => m.id === itemId);
+                    if (!item) return null;
+                    return (
+                      <div key={itemId} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm">
+                        <img 
+                          src={item.image} 
+                          alt={item.name}
+                          className="w-20 h-20 object-cover rounded-lg"
+                        />
+                        <div className="flex-1">
+                          <h4 className="font-medium text-gray-900">{item.name}</h4>
+                          <p className="text-sm text-gray-600 mb-1">{item.description}</p>
+                          <div className="flex items-center gap-4">
                             <p className="text-sm text-gray-600">Quantity: {count}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="font-medium">₹{item.price * count}</p>
+                            <p className="text-sm text-gray-600">₹{item.price} each</p>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                )}
+                        <div className="text-right">
+                          <p className="font-medium text-emerald-600">₹{item.price * count}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            )}
+            </div>
 
             {/* Confirmation Button */}
             <div className="flex justify-end">

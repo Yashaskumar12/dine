@@ -59,19 +59,14 @@ export default function FoodMenu() {
   };
 
   const handleProceedToReservation = () => {
-    const selectedMenuItems = Object.entries(selectedItems)
-      .map(([itemId, quantity]) => {
-        const item = restaurant.menu.find((m: MenuItem) => m.id === itemId);
-        return {
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          quantity
-        };
-      });
-
+    // Convert selected items to URL parameters
     const queryParams = new URLSearchParams(searchParams);
-    queryParams.set('menuItems', JSON.stringify(selectedMenuItems));
+    
+    // Add each selected item as a separate parameter
+    Object.entries(selectedItems).forEach(([itemId, quantity]) => {
+      queryParams.append('items', `${itemId}:${quantity}`);
+    });
+    
     navigate(`/restaurant/${id}/preview?${queryParams.toString()}`);
   };
 

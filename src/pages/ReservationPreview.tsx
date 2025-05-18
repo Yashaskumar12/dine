@@ -113,7 +113,12 @@ const ReservationPreview: React.FC = () => {
     if (date) queryParams.set('date', date);
     if (time) queryParams.set('time', time);
     if (guests) queryParams.set('guests', guests);
-    
+
+    // Add selected menu items to query params
+    searchParams.getAll('items').forEach(item => {
+      queryParams.append('items', item);
+    });
+
     if (type === 'restaurant') {
       navigate(`/restaurant/${id}/table-selection?${queryParams.toString()}`);
     } else {
